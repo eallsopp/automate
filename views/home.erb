@@ -1,0 +1,23 @@
+
+  <body>
+    <h1>Do you have Free Time for Hobbies?</h1>
+    <% if session[:message] %>
+      <p><%= session.delete(:message) %></p>
+    <% end %>
+    <p>Total Time Used: <%= session[:time_used] %></p>
+    <form action = "/" method="post">
+    <ol>
+      <li><label for="workday">How many hours do you work per day? <em>(exp: 8)</em>
+      <input class="workday" type="text" placeholder = "0" required></li>
+      <li>How many hours do you sleep per day?
+      <input class="sleep" type="text" placeholder ="0" required></li>
+      <li>How many minutes is your commute?<em>(in minutes, not hours)</em>
+      <input class="commute" type="text" placeholder ="0" required</li>
+      <li>How many minutes per day do you exercise? <em> (in minutes)</em>
+      <input class="exercise" type="text" placeholder = "0" required</li>
+    </ol>
+    <br>
+    <button type="submit" class="button">Submit</button>
+    </form>
+
+  </body>

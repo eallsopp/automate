@@ -1,0 +1,23 @@
+
+  <body>
+    <p><%=@message%></p>
+    <%if session[:message]%>
+      <p><%= session.delete(:message)%></p>
+    <%end%>
+
+    <form action='/new_user' method='post'>
+      <ul>
+        <li>
+          <label for='username'>Desired Username:</label>
+          <input class='button' type='text' name = 'username' placeholder='Username' required>
+        </li>
+        <li>
+          <label for='password'>Password:</label>
+          <input class='button' type='password' name='password' placeholder='Password' required>
+        </li>
+      </ul>
+      <br>
+      <button type='submit' class='button'>Submit</button>
+      <button type='submit' onclick="location.href='/'" class='button'>Return to Homepage</button>
+    </form>
+  </body>

@@ -1,0 +1,38 @@
+
+
+  <body>
+    <h1> How Do You Spend Your Time <%= @username %>?</h1>
+    <p class="chart" id="chart">Activity Table</p>
+
+  <br>
+    <%== line_chart @chart  %>
+
+      <div class="total_minutes">Average Minutes Used Per Day: <strong><%=@minutes_per_day %></strong></div>
+      <div class="total_minutes">Average Hours Used Per Day: <strong><%=@hours_per_day %></strong></div>
+  <br>
+      <div class="total_minutes">You have an average of <strong><%=@average_minutes_remaining%></strong> minutes remaining to use each day.</div>
+      <div class="total_minutes">That is <strong><%=@hours_remaining%></strong> hours.  Go get after it!</div>
+
+    <fieldset>
+      <form action="/add_entries" method="get">
+        <button type="submit" class="button">Add a New Daily Entry</button>
+      </form>
+
+      <form action="/choose_date" method="get">
+        <button type="submit" class="button">Edit Existing Entries</button>
+      </form>
+
+      <form action="/delete_date" method="get">
+        <button type="submit" class="button">Remove Entries</button>
+      </form>
+    </fieldset>
+  </body>
+  <br>
+
+  <footer>
+    <fieldset>
+      <form action="/signout" method="post"> 
+          <button type="submit" class="button">Sign Out</button>
+        </form>
+    </fieldset>
+  </footer>

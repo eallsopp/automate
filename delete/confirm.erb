@@ -1,0 +1,12 @@
+
+  <body>
+    <h1><%=session.delete :message %></h1>
+
+    <form action="/delete_date" method="post">
+      <button type="submit" class="button">Delete Entries</button>
+    </form>
+
+    <form action="/cancel_delete" method="post">
+      <button type="submit" class="button">Cancel</button>
+    </form>
+  </body>

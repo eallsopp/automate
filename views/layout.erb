@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Auto-mate</title>
+    <script name="chartkick" src="chartkick.js"></script>
+    <script name= "chartkickjs" src="Chart.bundle.js"></script>
+    <script src="/javascripts/jquery-3.5.1.slim.js"></script>
+    <script src="javascripts/application.js"></script>
+    <link rel="stylesheet" href="stylesheets/homepage.css">
+  </head>
+  <body>
+    <header>
+      <h1> Auto-mate </h1>
+      <div class="actions">
+        <%== yield_content :header_links %>
+    </header>
+
+    <% if session[:message] %>
+      <div class="user_message">
+        <p><%= session.delete(:message) %></p>
+      </div>
+    <% end %>
+
+    <main>
+      <%== yield %>
+    </main>
+
+  </body>
+
+  <%== yield_content :footer_links %>
+</html>
