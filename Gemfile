@@ -8,6 +8,8 @@ gem "erubis"
 gem 'bcrypt'
 gem 'securerandom'
 gem 'chartkick'
-gem 'puma'
-
 gem "pg"
+
+group :production do
+  gem 'puma'
+end
