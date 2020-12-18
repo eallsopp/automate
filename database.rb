@@ -3,7 +3,11 @@ require 'bcrypt'
 
 class DB
   def initialize
-    @connection = PG.connect(dbname: 'automate')
+    @connection = if Sinatra::Base.production?
+        PG.connect(ENV['DATABASE_URL'])
+      else
+        PG.connect(dbname: 'automate')
+      end
   end
 
   def user_already_exists?(username)
