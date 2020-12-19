@@ -6,7 +6,7 @@
   <body>
   <h2>Edit Your Activities for <em><%=params[:date]%></em></h2>
     <fieldset>
-    <form class="edit" action='/<%=@username%>/edit_activities/<%=params[:date]%>/add' method='post'>
+    <form class="edit" action='/edit_activities/<%=params[:date]%>/add' method='post'>
       <ul>
       <p>Everyday Events:</p>
         <% @standard_entries.each do |hash| %>
@@ -23,7 +23,7 @@
           <li>
             <label for="<%=hash["activity_name"]%>"><%=hash[:text_on_site] %></label>
             <input class='button' type='number' name="<%=hash["activity_name"]%>" placeholder="<%=hash["minutes_used"]%>">
-            <button type='submit' method='post' formaction="/<%=@username%>/delete_single_entry/<%=params[:date]%>/add/<%=hash["activity_name"]%>">Delete</button>            </li>
+            <button type='submit' method='post' formaction="/delete_single_entry/<%=params[:date]%>/add/<%=hash["activity_name"]%>">Delete</button>            </li>
         <% end %>
         </form>
         <% end %>
@@ -34,8 +34,8 @@
           <input class="button" type="number" name="add_value" placeholder=0>
         </li>
           <button type='submit' class='button'>Submit Edits</button>
-          <button type='button' onclick="window.location.href='/<%=@username%>/timesheet'">Cancel Edit</button>
-          <button type='button' onclick="window.location.href='/<%=@username%>/edit_activities/<%=@date%>'">Remove Additional Entry</button>
+          <button type='button' onclick="window.location.href='/timesheet'">Cancel Edit</button>
+          <button type='button' onclick="window.location.href='/edit_activities/<%=@date%>'">Remove Additional Entry</button>
           <button type='reset'>Clear Form</button>
         </ul>
         </fieldset>

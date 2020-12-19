@@ -77,13 +77,13 @@ helpers do
     hash.each do |k, v|
       if k.to_s.strip == ''
         session[:message] = "One of your inputs was empty. Please try again."
-        redirect "/#{username}/add_entries"    
+        redirect "/add_entries"    
       elsif v <= 0
         session[:message] = "Only non-zero positive numbers are allowed. Please try again."
-        redirect "/#{username}/add_entries"   
+        redirect "/add_entries"   
       elsif k.to_s.count('A-Za-z_ 0-9') != k.to_s.length
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
-        redirect "/#{username}/add_entries"
+        redirect "/add_entries"
       end
     end
   end
@@ -92,13 +92,13 @@ helpers do
     hash.each do |k, v|
       if k.to_s.strip == ''
         session[:message] = "Your additional entry was empty. Please try again."
-        redirect '/' + username + '/edit_activities/' + date + '/add'        
+        redirect '/edit_activities/' + date + '/add'        
       elsif v <= 0
         session[:message] = "Only non-zero positive numbers are allowed. Please try again."
-        redirect '/' + username + '/edit_activities/' + date + '/add'
+        redirect '/edit_activities/' + date + '/add'
       elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
-        redirect '/' + username +'/edit_activities/' + date + '/add'
+        redirect '/edit_activities/' + date + '/add'
       end
     end
   end
@@ -177,7 +177,7 @@ post "/login" do
   if @db.verify_user(username, password)
     session[:message] = "Welcome back #{username}"
     session[:id] = @db.find_id(username)
-    redirect "/#{username}/timesheet"
+    redirect "/timesheet"
   else
     session[:message] = "Invalid Credentials. Please try again."
     erb :login, layout: :layout
@@ -207,16 +207,12 @@ post "/new_user" do
 end
 
 #page to add a responsibility
-get "/:user/add_entries" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/add_entries" do
   erb :add_entries, layout: :layout
 end
 
 #post the list of entries to the DB
-post "/:user/add_entries" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post "/add_entries" do
     inputs = {
       work: params[:work].to_i,
       sleep: params[:sleep].to_i,
@@ -238,12 +234,10 @@ post "/:user/add_entries" do
 
     commit_to_db(validated_pairs, @session_id, date) unless date_already_exists?(@session_id, date)
     session[:message] = "Date already exists.  Choose 'Edit Existing Entries'."
-    redirect "/#{username}/timesheet"
+    redirect "/timesheet"
 end
 
-get "/:user/timesheet" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/timesheet" do
 
   @chart = extract_chart_data(@session_id)
 
@@ -256,18 +250,14 @@ get "/:user/timesheet" do
 end
 
 #which day to edit?
-get "/:user/choose_date" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/choose_date" do
   
   @dates = @db.dates_available(@session_id).map { |tuple| tuple["date"] }.sort
   erb :choose_date, layout: :layout
 end
 
 #edit page for an existing set of entries
-get "/:user/edit_activities/:date" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/edit_activities/:date" do
   @date = params[:date]
   @standard_entries =[]
   @personal_entries = []
@@ -288,9 +278,7 @@ get "/:user/edit_activities/:date" do
 end
 
 #overwrite existing entries of a given date
-post "/:user/edit_activities/:date" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post "/edit_activities/:date" do
   date = params[:date]
   @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple}
 
@@ -303,9 +291,8 @@ post "/:user/edit_activities/:date" do
   redirect '/timesheet'
 end
 
-get "/:user/edit_activities/:date/add" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/edit_activities/:date/add" do
+
   @standard_entries = []
   @personal_entries = []
   @date = params[:date]
@@ -325,9 +312,8 @@ get "/:user/edit_activities/:date/add" do
   erb :edit_add, layout: :layout
 end
 
-post "/:user/edit_activities/:date/add" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post "/edit_activities/:date/add" do
+
   date = params[:date]
   new_entry = {params[:add_name] => params[:add_value].to_i}
   validate_addition(new_entry, date, @username)
@@ -362,16 +348,12 @@ get "/sample_page" do
 end
 
 #choose dates to delete
-get "/:user/delete_date" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+get "/delete_date" do
   @dates = @db.dates_available(@session_id).map { |tuple| tuple["date"] }.sort
   erb :delete_date, layout: :layout
 end
 
-post "/:user/delete_date" do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post "/delete_date" do
   date_choices = [
     params[:date0], params[:date1], params[:date2], params[:date3], params[:date4], 
     params[:date5], params[:date6], params[:date7], params[:date8], params[:date9]
@@ -380,27 +362,23 @@ post "/:user/delete_date" do
     @db.delete_entry(@session_id, date)
   end
   session[:message] = "Your timesheet has been updated."
-  redirect "/#{@username}/timesheet"
+  redirect "/timesheet"
 end
 
-post '/:user/delete_single_entry/:date/:activity_name' do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post '/delete_single_entry/:date/:activity_name' do
   activity_name = params[:activity_name]
   date = params[:date]
   @db.delete_single_item(@session_id, activity_name, date)
   session[:message] = "Entry successfully deleted."
-  redirect "/#{@username}/edit_activities/#{date}"
+  redirect "/edit_activities/#{date}"
 end
 
-post '/:user/delete_single_entry/:date/add/:activity_name' do
-  @username = params[:user] 
-  @session_id = @db.find_id(@username)
+post '/delete_single_entry/:date/add/:activity_name' do
   activity_name = params[:activity_name]
   date = params[:date]
   @db.delete_single_item(@session_id, activity_name, date)
   session[:message] = "Entry successfully deleted."
-  redirect "/#{@username}/edit_activities/#{date}/add"
+  redirect "/edit_activities/#{date}/add"
 end
 
 post "/cancel_delete" do
@@ -409,11 +387,10 @@ post "/cancel_delete" do
 end
 
 post "/destroy" do
-  @username = params[:user] 
-  @session_id = @db.find_id(username)
+
   @db.delete_values(@session_id)
   session[:message] = "You have deleted all your entries."
-  redirect "/#{@username}/timesheet"
+  redirect "/timesheet"
 end
 
 post "/signout" do

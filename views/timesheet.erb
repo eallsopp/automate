@@ -14,15 +14,15 @@
       <div class="total_minutes">That is <strong><%=@hours_remaining%></strong> hours.  Go get after it!</div>
 
     <fieldset>
-      <form action="/<%=@username%>/add_entries" method="get">
+      <form action="/add_entries" method="get">
         <button type="submit" class="button">Add a New Daily Entry</button>
       </form>
 
-      <form action="/<%=@username%>/choose_date" method="get">
+      <form action="/choose_date" method="get">
         <button type="submit" class="button">Edit Existing Entries</button>
       </form>
 
-      <form action="/<%=@username%>/delete_date" method="get">
+      <form action="/delete_date" method="get">
         <button type="submit" class="button">Remove Entries</button>
       </form>
     </fieldset>

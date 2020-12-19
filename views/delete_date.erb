@@ -1,7 +1,7 @@
 
   <h1>Choose Date(s) to Delete:</h1><!--This is the page to edit for showing 10 dates per page -->
   <body>
-    <form class="delete" action='/<%=@username%>/delete_date' method="post">
+    <form class="delete" action='/delete_date' method="post">
     <fieldset>
     <dl>
       <dt>Current Entries:</dt>
@@ -13,7 +13,7 @@
       </dl>
 
       <button type="submit" class="button">Delete Date(s)</button>
-      <button type='button' onclick="window.location.href='/<%=@username%>/timesheet'">Return to Timesheet</button>
+      <button type='button' onclick="window.location.href='/timesheet'">Return to Timesheet</button>
     </fieldset>
   </form>
   </body>

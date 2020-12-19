@@ -4,10 +4,10 @@
     <ul>
     <% @dates.each do |date|%>
         <label for="date">Date:</label>
-        <a href="/<%=@username%>/edit_activities/<%=date%>"><p><%=date%></p></a>
+        <a href="/edit_activities/<%=date%>"><p><%=date%></p></a>
       <% end %>
     <fieldset>
-      <button class='return' type='button' onclick="window.location.href='/<%=@username%>/timesheet'">Return to Timesheet</button>
+      <button class='return' type='button' onclick="window.location.href='/timesheet'">Return to Timesheet</button>
       </ul>
     </fieldset>
   </body>
