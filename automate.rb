@@ -5,7 +5,6 @@ require 'sinatra/contrib'
 require 'chartkick'
 require 'securerandom'
 require 'bcrypt'
-require 'pry'
 
 require_relative 'database'
 
@@ -390,8 +389,4 @@ post "/signout" do
   session.clear
   session[:message] = "You have successfully signed out."
   redirect "/"
-end
-
-after do
-  @storage.disconnect
 end
