@@ -1,8 +1,8 @@
 
   <body>
-    <p><%=@message%></p>
+    <p class="user_message"><%=@message%></p>
     <%if session[:message]%>
-      <p><%= session.delete(:message)%></p>
+      <p class="user_message"><%= session.delete(:message)%></p>
     <%end%>
 
     <form action='/new_user' method='post'>

@@ -391,3 +391,7 @@ post "/signout" do
   session[:message] = "You have successfully signed out."
   redirect "/"
 end
+
+after do
+  @storage.disconnect
+end

@@ -141,4 +141,8 @@ class DB
       sql = "DELETE FROM activities WHERE user_id= $1;"
       @connection.exec_params(sql, [session_id])
   end
+
+  def disconnect
+    @db.close
+  end
 end

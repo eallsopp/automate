@@ -7,7 +7,7 @@
       <dt>Current Entries:</dt>
       <% @dates.each_with_index do |date, idx|%>
         <label>
-          <dd><input type="checkbox" name="date<%=idx%>" value="<%=date%>" /><%=date%></dd>
+          <dt><input type="checkbox" name="date<%=idx%>" value="<%=date%>" /><%=date%></dt>
         </label>
       <% end %>
       </dl>
