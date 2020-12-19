@@ -1,14 +1,13 @@
 
-  <h1>Edit Your Activities</h1><!--This is the page to edit for showing 10 dates per page -->
+  <h1>Edit Your Activities</h1>
   <body>
     <ul>
     <% @dates.each do |date|%>
-    <label for="date">Date:</label>
+        <label for="date">Date:</label>
         <a href="/edit_activities/<%=date%>"><p><%=date%></p></a>
-        <% end %>
+      <% end %>
     <fieldset>
-
-      <button type='button' onclick="window.location.href='/timesheet'">Return to Timesheet</button>
+      <button class='return' type='button' onclick="window.location.href='/timesheet'">Return to Timesheet</button>
       </ul>
     </fieldset>
   </body>

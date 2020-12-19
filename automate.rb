@@ -81,6 +81,9 @@ helpers do
       elsif v <= 0
         session[:message] = "Only non-zero positive numbers are allowed. Please try again."
         redirect '/add_entries'
+      elsif k.to_s.count('A-Za-z_ 0-9') != k.to_s.length
+        session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
+        redirect '/add_entries'
       end
     end
   end
@@ -92,6 +95,9 @@ helpers do
         redirect '/edit_activities/' + date + '/add'        
       elsif v <= 0
         session[:message] = "Only non-zero positive numbers are allowed. Please try again."
+        redirect '/edit_activities/' + date + '/add'
+      elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
+        session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
         redirect '/edit_activities/' + date + '/add'
       end
     end
@@ -176,7 +182,7 @@ end
 
 #Page to Create a New User Account
 get "/new_user" do
-  @message = "Please create an account to use the application."
+  @message = "Please register to use the application."
 
   erb :new_user, layout: :layout
 end
@@ -216,6 +222,7 @@ post "/add_entries" do
       params[:hobby4] => params[:hobby4time].to_i,
       params[:hobby5] => params[:hobby5time].to_i
     }
+
     date = params[:date]
     
     valid_entries = accept_entries(inputs)
@@ -353,17 +360,17 @@ post "/delete_date" do
 end
 
 post '/delete_single_entry/:date/:activity_name' do
-  name = params[:activity_name]
+  activity_name = params[:activity_name]
   date = params[:date]
-  @db.delete_single_item(@session_id, name, date)
+  @db.delete_single_item(@session_id, activity_name, date)
   session[:message] = "Entry successfully deleted."
   redirect "/edit_activities/#{date}"
 end
 
 post '/delete_single_entry/:date/add/:activity_name' do
-  name = params[:activity_name]
+  activity_name = params[:activity_name]
   date = params[:date]
-  @db.delete_single_item(@session_id, name, date)
+  @db.delete_single_item(@session_id, activity_name, date)
   session[:message] = "Entry successfully deleted."
   redirect "/edit_activities/#{date}/add"
 end

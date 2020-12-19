@@ -1,17 +1,21 @@
-h1 {
+h1, h2 {
   color: black;
   text-align: center;
 }
 
 main {
   margin: 50px;
-
+  font-family: Bodoni, Arial, Helvetica, sans-serif;
 }
 
 body {
-  background-color: #ffffe0;
-  margin: 50px;
+  background-color: white;
+  text-align: center;
+}
 
+label {
+  font-size: 16px;
+  text-align: center;
 }
 
 strong {
@@ -26,13 +30,30 @@ p {
   font-size: 24px;
 }
 
+ul {
+  list-style-type: none;
+  text-align: center;
+  justify-content: center;
+}
+
 .more-text {
   color: gray;
 }
 
-button {
+.return {
+  text-align: center;
+}
+
+button, button.return {
   margin-bottom: 2px;
   margin-top: 2px;
+  background-color: white;
+  color: black;
+  border-color: black;
+  font-weight: 200;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .text {
@@ -41,14 +62,31 @@ button {
   margin-bottom: 2px;
 }
 
+.login, .return {
+  text-align: center;
+}
+
 .user_message {
+  margin: 50px;
+  text-align: center;
   background-color: lightblue;
   color: black;
   font-weight: 200;
+  border-radius: 5px;
+  border-color: black;
+  border: 2px;
+}
+
+input.text {
+  padding: 5px;
+  font-size: 16px;
+}
+
+input.button {
+  font-size: 16px;
 }
 
 p.chart {
-  display: block;
   text-align: center;
-  font-size: 50px;
+  font-size: 30px;
 }
