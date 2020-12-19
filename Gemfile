@@ -9,6 +9,7 @@ gem 'bcrypt'
 gem 'securerandom'
 gem 'chartkick'
 gem "pg"
+gem 'pry'
 
 group :production do
   gem 'puma'

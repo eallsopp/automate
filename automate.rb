@@ -5,6 +5,7 @@ require 'sinatra/contrib'
 require 'chartkick'
 require 'securerandom'
 require 'bcrypt'
+require 'pry'
 
 require_relative 'database'
 
@@ -16,7 +17,7 @@ end
 
 configure(:development) do
   require 'sinatra/reloader'
-  also_reload 'database.rb'
+  also_reload 'database.rb' 
 end
 
 
@@ -237,6 +238,7 @@ post "/add_entries" do
 end
 
 get "/timesheet" do
+  binding.pry
   @username = @db.find_username(@session_id)
 
   @chart = extract_chart_data(@session_id)
