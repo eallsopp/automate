@@ -142,4 +142,7 @@ class DB
       @connection.exec_params(sql, [session_id])
   end
 
+  def close
+    @connection.close
+  end
 end
