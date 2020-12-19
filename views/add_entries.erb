@@ -7,7 +7,7 @@
 
   <body>
   <fieldset>
-    <form action='/add_entries' method='post'>
+    <form action='/<%=@username%>/add_entries' method='post'>
       <label for="date">Date:</label>
         <input class="button" type="date" name="date" value="2020-01-01" required>
           <ul>General Responsibilities: 
@@ -60,7 +60,7 @@
               <input class='button' type='number' name='hobby5time' placeholder='0'>
             </li> 
               <button type='text' class='button'>Submit</button>
-              <button type='button' onclick="window.location.href='/timesheet'">Cancel</button>
+              <button type='button' onclick="window.location.href='/<%=@username%>/timesheet'">Cancel</button>
             </ul>
       </form>
     </fieldset>  
