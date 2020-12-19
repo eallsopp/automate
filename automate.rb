@@ -176,6 +176,7 @@ post "/login" do
 
   if @db.verify_user(username, password)
     session[:message] = "Welcome back #{username}"
+    binding.pry
     session[:id] = @db.find_id(username)
     redirect "/timesheet"
   else
