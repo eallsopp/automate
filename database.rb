@@ -104,7 +104,6 @@ class DB
 
   def dates_available(session_id)
     sql = "SELECT date FROM activities WHERE user_id = $1 GROUP BY date"
-    return "No dates available" if @connect.exec_params(sql,[session_id]) == nil
     @connection.exec_params(sql, [session_id])
   end
 
