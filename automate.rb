@@ -176,9 +176,9 @@ post "/login" do
 
   if @db.verify_user(username, password)
     session[:message] = "Welcome back #{username}"
-    binding.pry
     session[:id] = @db.find_id(username)
     redirect "/timesheet"
+    halt
   else
     session[:message] = "Invalid Credentials. Please try again."
     erb :login, layout: :layout
@@ -239,7 +239,6 @@ post "/add_entries" do
 end
 
 get "/timesheet" do
-  binding.pry
   @username = @db.find_username(@session_id)
 
   @chart = extract_chart_data(@session_id)
