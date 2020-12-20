@@ -175,9 +175,8 @@ post "/login" do
   password = params[:password]
 
   if @db.verify_user(username, password)
-    session[:id] = @db.find_id(username)
-
     session[:message] = "Welcome back #{username}"
+    session[:id] = @db.find_id(username)
     redirect "/timesheet"
   else
     session[:message] = "Invalid Credentials. Please try again."
