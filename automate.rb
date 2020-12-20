@@ -155,10 +155,9 @@ before do
   @date = params[:date]
 end
 
-
-after do
-  @db.close
-end
+# after do
+#   @db.close
+# end
 
 #inital page
 get "/" do
@@ -239,7 +238,6 @@ post "/add_entries" do
 end
 
 get "/timesheet" do
-  binding.pry
   @chart = extract_chart_data(@session_id)
 
   @minutes_per_day =  minutes_used(@session_id)
