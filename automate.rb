@@ -78,8 +78,8 @@ helpers do
       if k.to_s.strip == ''
         session[:message] = "One of your inputs was empty. Please try again."
         redirect "/add_entries"    
-      elsif v <= 0
-        session[:message] = "Only non-zero positive numbers are allowed. Please try again."
+      elsif v < 0
+        session[:message] = "Only non-negative numbers are allowed. Please try again."
         redirect "/add_entries"   
       elsif k.to_s.count('A-Za-z_ 0-9') != k.to_s.length
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
@@ -93,8 +93,8 @@ helpers do
       if k.to_s.strip == ''
         session[:message] = "Your additional entry was empty. Please try again."
         redirect '/edit_activities/' + date + '/add'        
-      elsif v <= 0
-        session[:message] = "Only non-zero positive numbers are allowed. Please try again."
+      elsif v < 0
+        session[:message] = "Only non-negative numbers are allowed. Please try again."
         redirect '/edit_activities/' + date + '/add'
       elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
