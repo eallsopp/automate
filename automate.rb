@@ -155,9 +155,9 @@ before do
   @date = params[:date]
 end
 
-# after do
-#   @db.close
-# end
+after do
+  @db.close
+end
 
 #inital page
 get "/" do
