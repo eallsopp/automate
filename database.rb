@@ -4,7 +4,7 @@ require 'bcrypt'
 class DB
   def initialize
     @connection = if Sinatra::Base.production?
-        PG.connect(ENV['DATABASE_URL'])
+        PG.connect(ENV[DATABASE_URL])
       else
         PG.connect(dbname: 'automate')
       end
