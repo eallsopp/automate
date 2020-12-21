@@ -44,14 +44,14 @@ ul {
   text-align: center;
 }
 
-button, button.return {
+button, button.return, input.button {
   margin-bottom: 2px;
   margin-top: 2px;
-  background-color: white;
+  background-color: gray;
   color: black;
   border-color: black;
   font-weight: 200;
-  font-size: 20px;
+  font-size: 12px;
   padding: 5px;
   border-radius: 5px;
 }
@@ -79,10 +79,6 @@ button, button.return {
 
 input.text {
   padding: 5px;
-  font-size: 16px;
-}
-
-input.button {
   font-size: 16px;
 }
 

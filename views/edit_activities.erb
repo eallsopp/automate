@@ -25,7 +25,7 @@
           <li>
               <label for="<%=hash["activity_name"]%>"><%=hash[:text_on_site] %></label>
               <input type='number' name="<%=hash["activity_name"]%>" placeholder="<%=hash["minutes_used"]%>">              
-              <input type='submit' value='Delete Entry' formaction="/delete_single_entry/<%=params[:date]%>/<%=hash["activity_name"]%>" />            
+              <input class="button" type='submit' value='Delete Entry' formaction="/delete_single_entry/<%=params[:date]%>/<%=hash["activity_name"]%>" />            
           </li>
           <% end %>
         <% end %>

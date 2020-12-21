@@ -103,6 +103,13 @@ helpers do
     end
   end
 
+  def current_entries(names_and_values, names, standard_entries, personal_entries)
+    names_and_values.map.with_index do |hash, idx|
+      hash.merge!({"text_on_site": "Edit" + " " + remove_underscores_and_capitalize(names[idx])})
+      idx <= 5 ? standard_entries << hash : personal_entries << hash
+    end
+  end
+
   def sample_chart
     [ { name: 'Work', data: {'2020-12-16': '500', '2020-12-17': '480', '2020-11-29': "200"}},
       { name: 'Sleep', data: {'2020-12-16': '419', '2020-12-17': '450', '2020-11-29': "480"}},
@@ -250,29 +257,21 @@ end
 
 #which day to edit?
 get "/choose_date" do
-  
   @dates = @db.dates_available(@session_id).map { |tuple| tuple["date"] }.sort
+
   erb :choose_date, layout: :layout
 end
 
 #edit page for an existing set of entries
 get "/edit_activities/:date" do
   @date = params[:date]
-  @standard_entries =[]
+  @standard_entries = []
   @personal_entries = []
+
   names_and_values = @db.names_and_values(@session_id, @date).map { |tuple| tuple}
-  
   names = @db.extract_names(@session_id, @date).map { |tuple| tuple["activity_name"]}
 
-  names_and_values.map.with_index do |hash, idx|
-    hash.merge!({"text_on_site": "Edit" + " " + remove_underscores_and_capitalize(names[idx])})
-    if idx <= 5
-      @standard_entries << hash
-    else
-      @personal_entries << hash  
-    end
-  end
-
+  current_entries(names_and_values, names, @standard_entries, @personal_entries)
   erb :edit_activities, layout: :layout
 end
 
@@ -291,22 +290,14 @@ post "/edit_activities/:date" do
 end
 
 get "/edit_activities/:date/add" do
-
   @standard_entries = []
   @personal_entries = []
   @date = params[:date]
-  names_and_values = @db.names_and_values(@session_id, @date).map { |tuple| tuple}
-  
+
+  names_and_values = @db.names_and_values(@session_id, @date).map { |tuple| tuple}  
   names = @db.extract_names(@session_id, @date).map { |tuple| tuple["activity_name"]}
 
-  names_and_values.map.with_index do |hash, idx|
-    hash.merge!({"text_on_site": "Edit" + " " + remove_underscores_and_capitalize(names[idx])})
-    if idx <= 5
-      @standard_entries << hash
-    else
-      @personal_entries << hash  
-    end
-  end
+  current_entries(names_and_values, names, @standard_entries, @personal_entries)
 
   erb :edit_add, layout: :layout
 end
