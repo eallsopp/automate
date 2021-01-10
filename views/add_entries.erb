@@ -8,59 +8,60 @@
   <body>
   <fieldset>
     <form action='/add_entries' method='post'>
+    <br>
       <label for="date">Date:</label>
-        <input class="button" type="date" name="date" value="YYYY-MM-DD" required>
-          <ul>General Responsibilities: 
-          <br>
-
-            <li>
+      <input class="button" type="date" name="date" value="YYYY-MM-DD" required>
+        <p>General Responsibilities: </p>
+          <dl>
+            <dt>
               <label for="work">Work</label>
               <input class='button' type='number' name='work' placeholder="in minutes" required>
-            </li>
-            <li>
+            </dt>
+            <dt>
               <label for="sleep">Sleep</label>
               <input class='button' type='number' name='sleep' placeholder="in minutes" required>
-            </li>
-            <li>
+            </dt>
+            <dt>
               <label for='commute'>Commute to Work</label>
               <input class='button' type='number' name='commute_to' placeholder="in minutes" required>
-            </li>
-            <li>
+            </dt>
+            <dt>
               <label for='reverse_commute'>Commute from Work</label>
               <input class='button' type='number' name='commute_from' placeholder="in minutes" required>
-            </li>
-            <li>
+            </dt>
+            <dt>
               <label for='meals'>Preparing Meals</label>
               <input class='button' type='number' name='meal_prep' placeholder="in minutes" required>
-            </li>
-            <li>
+            </dt>
+            <dt>
               <label for='eating_meals'>Eating Meals</label>
               <input class='button' type='number' name='eating_meals' placeholder="in minutes" required>
-            </li>
-          </ul>
-          <ul>Additional Activities: <em>(Gym, Hobbies, Music Lessons etc..)</em>
-            <li>
+            </dt>
+          </dl>
+          <p>Additional Activities: </p>
+          <p><em>(Gym, Hobbies, Music Lessons etc..)</p>
+            <dt>
               <input class='text' type='text' name='hobby1' placeholder="Custom Name">
               <input class='button' type='number' name='hobby1time' placeholder='0'>
-            </li>      
-            <li>
+            </dt>      
+            <dt>
               <input class='text' type='text' name='hobby2' placeholder="Custom Name">
               <input class='button' type='number' name='hobby2time' placeholder='0'>
-            </li>  
-            <li>
+            </dt>  
+            <dt>
               <input class='text' type='text' name='hobby3' placeholder="Custom Name">
               <input class='button' type='number' name='hobby3time' placeholder='0'>
-            </li>  
-            <li>
+            </dt>  
+            <dt>
               <input class='text' type='text' name='hobby4' placeholder="Custom Name">
               <input class='button' type='number' name='hobby4time' placeholder='0'>
-            </li>    
-            <li>
+            </dt>    
+            <dt>
               <input class='text' type='text' name='hobby5' placeholder="Custom Name">
               <input class='button' type='number' name='hobby5time' placeholder='0'>
-            </li> 
+            </dt> 
               <button type='text' class='button'>Submit</button>
-            </ul>
+            </dl>
       </form>
     </fieldset>  
     <br>

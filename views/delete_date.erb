@@ -5,10 +5,12 @@
     <fieldset>
     <dl>
       <dt>Current Entries:</dt>
+      <br>
       <% @dates.each_with_index do |date, idx|%>
         <label>
           <dt><input type="checkbox" name="date<%=idx%>" value="<%=date%>" /><%=date%></dt>
         </label>
+        <br>
       <% end %>
       </dl>
 

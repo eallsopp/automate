@@ -7,34 +7,35 @@
   <h2>Edit Your Activities for <em><%=params[:date]%></em></h2>
     <fieldset>
     <form class="edit" action='/edit_activities/<%=params[:date]%>' method='post'>
-      <ul>
+      <dl>
       <p>Everyday Events:</p>
       <% @standard_entries.each do |hash| %>
-        <li>
+        <dt>
           <label for="<%=hash["activity_name"]%>"><%=hash[:text_on_site] %></label>
           <input class='button' type='number' name="<%=hash["activity_name"]%>" placeholder="<%=hash["minutes_used"]%>">
-        </li>
+        </dt>
         <% end %>
-      </ul>
+      </dl>
 
       <%if @personal_entries != []%>
 
-      <ul>
+      <dl>
       <p>Personal Activities:</p>
         <% @personal_entries.each do |hash|%>
-          <li>
+          <dt>
               <label for="<%=hash["activity_name"]%>"><%=hash[:text_on_site] %></label>
-              <input type='number' name="<%=hash["activity_name"]%>" placeholder="<%=hash["minutes_used"]%>">              
-              <input class="button" type='submit' value='Delete Entry' formaction="/delete_single_entry/<%=params[:date]%>/<%=hash["activity_name"]%>" />            
-          </li>
+              <input class = "button" type='number' name="<%=hash["activity_name"]%>" placeholder="<%=hash["minutes_used"]%>">              
+              <input class="delete" type='submit' value='Delete Entry' formaction="/delete_single_entry/<%=params[:date]%>/<%=hash["activity_name"]%>" />            
+          </dt>
+          
           <% end %>
         <% end %>
-
+          <br>
          <button type='submit' class='button'>Submit Edits</button>
          <button type="button" name="add" id="add" onclick="window.location.href='/edit_activities/<%=@date%>/add'">Add A New Entry</button>
          <button type='button' onclick="window.location.href='/timesheet'">Cancel Edit</button>
          <button type='reset'>Clear form</button>
-      </ul>
+      </dl>
         </fieldset>
       <br>
   </body>

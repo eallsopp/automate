@@ -16,8 +16,16 @@ body {
 }
 
 label {
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
+}
+
+dl dt {
+  font-size: 24px;
+}
+
+dt input.text {
+  font-size: 20px;
 }
 
 strong {
@@ -38,6 +46,16 @@ ul {
   justify-content: center;
 }
 
+ul label{
+  font-size: 24px;
+  display: inline-block;
+}
+
+fieldset {
+  display: inline;
+  border-color: dodgerblue;
+}
+
 .more-text {
   color: gray;
 }
@@ -46,12 +64,12 @@ ul {
   text-align: center;
 }
 
-button, button.return {
+button, button.return, dt input.delete {
   margin-bottom: 2px;
   margin-top: 2px;
   background-color: lightgray;
   color: black;
-  border-color: black;
+  border-color: blue;
   font-weight: 200;
   font-size: 16px;
   padding: 5px;
@@ -65,7 +83,9 @@ form button.link {
 	padding: 0;
 	font: inherit;
 	cursor: pointer;
-	outline: inherit;
+  outline: inherit;
+  line-height: 15px;
+  padding: 0;
 }
 
 button.link:hover {
@@ -102,22 +122,20 @@ input.button {
   color: black;
   font-weight: 200;
   border-radius: 5px;
-  border-color: black;
-  border: 2px;
+  display: inline-block;
 }
 /* this is where to focus attention Sunday and fix the layout issues*/
 form {
-  /* display: grid; */
-  padding: 5px;
+  display: flexbox;
+  padding: 0px;
   font-size: inherit;
+  border: none;
 }
 
 p.chart {
   text-align: center;
   font-size: 30px;
 }
-
-
 
 /* Style the header with a grey background and some padding */
 .header {

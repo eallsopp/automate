@@ -1,10 +1,10 @@
 
   <h1>Edit Your Activities</h1>
   <body>
-    <ul>
+    
     <% @dates.each do |date|%>
         <label for="date">Date:</label>
         <a href="/edit_activities/<%=date%>"><p><%=date%></p></a>
       <% end %>
-    </ul>
+    
   </body>

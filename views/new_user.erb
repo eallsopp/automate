@@ -5,19 +5,19 @@
       <p class="user_message"><%= session.delete(:message)%></p>
     <%end%>
 
+  <fieldset>
     <form action='/new_user' method='post'>
-      <ul>
-        <li>
+    <br>
           <label for='username'>Desired Username:</label>
           <input class='text' type='text' name = 'username' placeholder='Username' required>
-        </li>
-        <li>
-          <label for='password'>Password:</label>
+          <br>
+          <label for='password'>Desired Password:</label>
           <input class='text' type='password' name='password' placeholder='Password' required>
-        </li>
-      </ul>
+      <br>
+      <br>
       <br>
       <button type='submit' class='button'>Submit</button>
       <button type='submit' onclick="location.href='/'" class='button'>Return to Homepage</button>
     </form>
+    </fieldset>
   </body>
