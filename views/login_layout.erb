@@ -7,30 +7,17 @@
     <script name= "chartkickjs" src="Chart.bundle.js"></script>
     <script src="/javascripts/jquery-3.5.1.slim.js"></script>
     <script src="javascripts/application.js"></script>
-    <script name = "layout" src="layout.js"></script>
     <link rel="stylesheet" href="../stylesheets/homepage.css">
     <link rel="icon" href="../images/favicon.ico" type="image/ico">
     <link rel="shortcut icon" href="images/favicon.ico">
   </head>
-
   <body>
-    <div id="header" class="header">
-      <a href="/timesheet" class="logo">Auto-Mate</a>
-      <div id="links" class="header-right">      
-          <a class="" href="/timesheet">Timesheet</a>
-          <a class="" href="/add_entries">Add Entry</a>
-          <a class="" href="/choose_date">Edit Entry</a>
-          <a class="" href="/delete_date">Delete Entry</a>
-          <a><form action="/signout" method="post"> 
-            <button type="submit" class="link">Sign Out</button>
-            </form>
-          </a>  
-        </div>
-      </div> 
-    
 
+    <header>
+      <h1> Auto-mate </h1>
       <div class="actions">
         <%== yield_content :header_links %>
+    </header>
 
     <% if session[:message] %>
       <div class="user_message">

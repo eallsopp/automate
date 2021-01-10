@@ -55,9 +55,23 @@ helpers do
     @db.extract_activities(session_id).map { |tuple| tuple["activity_name"]}
   end
 
-  def extract_chart_data(session_id)
+  def all_logged_activities(session_id)
     activity_names(session_id).map do |activity_name|
       {name: remove_underscores_and_capitalize(activity_name), data: extract_date_time_hash(activity_name, session_id) }
+    end
+  end
+#charts data as {name_of_activity: basketball, minutes: 45}, 
+  def all_logged_minutes(session_id)
+    @db.total_minutes_logged(session_id).map do |activity_name|
+      activity_name.values
+    end.map do |array|
+      [remove_underscores_and_capitalize(array[0]), array[1]]
+    end
+  end
+
+  def extract_average_hours_per_activity(session_id)
+    all_logged_minutes(session_id).map do |array|
+      [array[0], (minutes_to_hours(array[1].to_i.to_f) / days_logged(session_id)).round(2)]
     end
   end
 
@@ -132,7 +146,7 @@ helpers do
   end
 
   def minutes_to_hours(minutes)
-    (minutes.to_f / 60.0).round(2)
+    (minutes.to_f / 60.00).round(2)
   end
 
   def minutes_used(session_id)
@@ -173,7 +187,7 @@ end
 
 #login page
 get "/login" do
-  erb :login
+  erb :login, layout: :login_layout
 end
 
 #Verify UN and PW
@@ -245,13 +259,19 @@ post "/add_entries" do
 end
 
 get "/timesheet" do
-  @chart = extract_chart_data(@session_id)
+  @chart = all_logged_activities(@session_id) 
 
   @minutes_per_day =  minutes_used(@session_id)
-  @hours_per_day = minutes_to_hours(@minutes_per_day)
+  @hours_used_per_day = minutes_to_hours(@minutes_per_day)
   @average_minutes_remaining = average_minutes_remaining(@session_id)
   @hours_remaining = minutes_to_hours(@average_minutes_remaining)
+  @average_hours_used = @hours_used_per_day
 
+  @daily_activity_hours = extract_average_hours_per_activity(@session_id)
+  
+  @total_minutes = all_logged_minutes(@session_id)
+  @hours_used = {'Hours Remaining': @hours_remaining, 'Hours Used':@average_hours_used }
+  
   erb :timesheet, layout: :layout
 end
 

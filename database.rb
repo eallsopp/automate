@@ -127,6 +127,11 @@ class DB
     @connection.exec_params(sql, [activity_name, session_id])
   end
 
+  def total_minutes_logged(session_id)
+    sql = "SELECT activity_name, SUM(minutes_used) FROM activities WHERE user_id = $1 GROUP BY activity_name"
+    @connection.exec_params(sql, [session_id])
+  end
+
   def delete_single_item(session_id, name, date)
     sql = "DELETE FROM activities WHERE user_id = $1 AND activity_name = $2 AND date = $3"
     @connection.exec_params(sql, [session_id, name, date])

@@ -9,7 +9,7 @@
   <fieldset>
     <form action='/add_entries' method='post'>
       <label for="date">Date:</label>
-        <input class="button" type="date" name="date" value="2020-01-01" required>
+        <input class="button" type="date" name="date" value="YYYY-MM-DD" required>
           <ul>General Responsibilities: 
           <br>
 
@@ -60,7 +60,6 @@
               <input class='button' type='number' name='hobby5time' placeholder='0'>
             </li> 
               <button type='text' class='button'>Submit</button>
-              <button type='button' onclick="window.location.href='/timesheet'">Cancel</button>
             </ul>
       </form>
     </fieldset>  
@@ -68,9 +67,5 @@
   </body>
 
   <footer>
-    <fieldset>
-      <form action="/signout" method="post"> 
-        <button type="submit" class="button">Sign Out</button>
-      </form>
-    </fieldset>
+
   </footer>
