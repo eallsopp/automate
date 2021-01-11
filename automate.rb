@@ -20,8 +20,11 @@ configure(:development) do
   also_reload 'database.rb' 
 end
 
-
 helpers do
+
+  HOURS_IN_DAY = 24
+  MINUTES_PER_HOUR = 60
+
   def has_responsibilities? #this is for the editing list and creating an empty hash
     @responsibilities.empty?
   end
@@ -87,8 +90,7 @@ helpers do
     hash.keep_if {|k, _| (k != '') }
   end
 
-  def validate_entries(hash, username)
-
+  def validate_entries(hash)
     hash.each do |k, v|
       if k.to_s.strip == ''
         session[:message] = "One of your inputs was empty. Please try again."
@@ -103,27 +105,44 @@ helpers do
     end
   end
 
-  #add this to validationsteps
-  def validate_time_total(hash, username)
-    if hash.values.inject(:+) > (24*60)
+  #Validates that no total entry is more than 24 hours
+  def validate_time_total(hash, date)
+    if hash.values.map(&:to_i).inject(:+) > (MINUTES_PER_HOUR * HOURS_IN_DAY)
       session[:message] = "You cannot exceed 24 hours in a day.  Please try again."
-      redirect "/add_entries"
+      redirect "/edit_activities/" + date
     end
+    hash
   end
 
   def validate_addition(hash, date, username)
-    hash.each do |k, v|
-      if k.to_s.strip == ''
-        session[:message] = "Your additional entry was empty. Please try again."
-        redirect '/edit_activities/' + date
-      elsif v < 1
-        session[:message] = "The time you spend must be greater than zero. Please try again."
-        redirect '/edit_activities/' + date 
-      elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
-        session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
-        redirect '/edit_activities/' + date
+    if hash.empty?
+      return hash
+    else
+      hash.each do |k, v|
+        if k.to_s.strip == ''
+          session[:message] = "Your additional entry was empty. Please try again."
+          redirect '/edit_activities/' + date
+        elsif v.to_i < 1
+          session[:message] = "The time you spend must be greater than zero. Please try again."
+          redirect '/edit_activities/' + date 
+        elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
+          session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
+          redirect '/edit_activities/' + date
+        end
       end
     end
+  end
+
+  def time_taken(session_id, date)
+    @db.accumulated_daily_time(session_id, date)
+  end
+
+  def clean_edits(edits)
+    edits.keep_if { |_, v| v != '' }
+  end
+
+  def reformat_name_minutes_hash_for_edited_values(array, edited_items)
+    array.map { |hash| [hash['activity_name'], hash['minutes_used']] }.to_h.merge(edited_items)
   end
 
   def format_addition(new_entry)
@@ -135,6 +154,10 @@ helpers do
       hash.merge!({"text_on_site": "Edit" + " " + remove_underscores_and_capitalize(names[idx])})
       idx <= 5 ? standard_entries << hash : personal_entries << hash
     end
+  end
+
+  def edited_current_entries(names_and_values, all_edits)
+    names_and_values.merge(all_edits)
   end
 
   def sample_chart
@@ -272,9 +295,11 @@ post "/add_entries" do
     date = params[:date]
     
     valid_entries = accept_entries(inputs)
-    validated_pairs = validate_entries(valid_entries, @username)
+    validated_pairs = validate_entries(valid_entries)
+    
+    validated_time_pairs = validate_time_total(validated_pairs)
 
-    commit_to_db(validated_pairs, @session_id, date) unless date_already_exists?(@session_id, date)
+    commit_to_db(validated_time_pairs, @session_id, date) unless date_already_exists?(@session_id, date)
     session[:message] = "Date already exists.  Choose 'Edit Existing Entries'."
     redirect "/timesheet"
 end
@@ -318,16 +343,26 @@ end
 #overwrite existing entries of a given date
 post "/edit_activities/:date" do
   date = params[:date]
+  new_entry = { params[:add_name] => params[:add_value] }
+  
+  @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple }
 
-  new_entry = {params[:add_name] => params[:add_value].to_i}
-  validate_addition(new_entry, date, @username)
-
-  new_entry = format_addition(new_entry)
-
-  @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple}
   edits = @names_values_text.map { |hash| 
   [hash["activity_name"], params[hash["activity_name"].to_sym]]}.to_h
+  
+  new_entry = accept_entries(new_entry)
+  new_entry = validate_addition(new_entry, date, @username)
+  all_edits = accept_entries(edits.merge(new_entry))
 
+  all_edits = clean_edits(all_edits)
+  new_names_and_minutes = reformat_name_minutes_hash_for_edited_values(@names_values_text, all_edits)
+
+  validate_time_total(new_names_and_minutes, date)
+  edits = clean_edits(edits)
+
+
+
+  new_entry = format_addition(new_entry)
   edit_existing_entries(edits, @session_id, date)
   @db.commit_entries(new_entry, @session_id, date)
 

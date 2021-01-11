@@ -76,6 +76,12 @@ class DB
     result[0][0]
   end
 
+  def accumulated_daily_time(session_id, date)
+    sql = "SELECT SUM(minutes_used) FROM activities WHERE user_id = $1 AND date = $2"
+    result = @connection.exec_params(sql, [session_id, date]).values
+    result[0][0]
+  end
+
   def total_logged_actions(session_id)
     sql = "SELECT DISTINCT COUNT(date) FROM activities WHERE user_id = $1"
     result = @connection.exec_params(sql, [session_id]).values
@@ -89,7 +95,7 @@ class DB
 
   def show_table(session_id)
     if session_id == "test"
-      sql = "SELECT * FROM ACTIVITIES WHERE user_id = 2" #I will have to modify this since 'test' is te name fo a user, their id is 2
+      sql = "SELECT * FROM ACTIVITIES WHERE user_id = 2" 
       @connection.exec_params(sql).each { |data| data }
     else
       sql = "SELECT * FROM activities WHERE user_id = $1"
