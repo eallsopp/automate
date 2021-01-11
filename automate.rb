@@ -88,6 +88,7 @@ helpers do
   end
 
   def validate_entries(hash, username)
+
     hash.each do |k, v|
       if k.to_s.strip == ''
         session[:message] = "One of your inputs was empty. Please try again."
@@ -99,6 +100,14 @@ helpers do
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
         redirect "/add_entries"
       end
+    end
+  end
+
+  #add this to validationsteps
+  def validate_time_total(hash, username)
+    if hash.values.inject(:+) > (24*60)
+      session[:message] = "You cannot exceed 24 hours in a day.  Please try again."
+      redirect "/add_entries"
     end
   end
 
