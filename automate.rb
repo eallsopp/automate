@@ -130,14 +130,14 @@ helpers do
 
   def sample_chart
     [ { name: 'Work', data: {'2020-12-16': '500', '2020-12-17': '480', '2020-11-29': "200"}},
-      { name: 'Sleep', data: {'2020-12-16': '419', '2020-12-17': '450', '2020-11-29': "480"}},
-      { name: 'Eating Meals', data: {'2020-12-16': '45', '2020-12-17': '60', '2020-11-29': "70"}},
+      { name: 'Sleep', data: {'2020-12-16': '420', '2020-12-17': '450', '2020-11-29': "480"}},
+      { name: 'Eating Meals', data: {'2020-12-16': '75', '2020-12-17': '55', '2020-11-29': "70"}},
       { name: 'Commute To', data: {'2020-12-16': '10', '2020-12-17': '9', '2020-11-29': "8"}},
       { name: 'Commute From', data: {'2020-12-16': '10', '2020-12-17': '12', '2020-11-29': "14"}},
-      { name: 'Guitar', data: {'2020-12-16': '60', '2020-12-17': '60', '2020-11-29': "45"}},
+      { name: 'Guitar', data: {'2020-12-16': '60', '2020-12-17': '60', '2020-11-29': "60"}},
       { name: 'Video Games', data: {'2020-12-16': '60', '2020-12-17': '90', '2020-11-29': "30"}},
-      { name: 'Side Hustle', data: {'2020-12-16': '25', '2020-12-17': '40', '2020-11-29': "15"}},
-      { name: 'Making Meals', data: {'2020-12-16': '60', '2020-12-17': '35', '2020-11-29': "45"}}
+      { name: 'Side Hustle', data: {'2020-12-16': '75', '2020-12-17': '60', '2020-11-29': "90"}},
+      { name: 'Making Meals', data: {'2020-12-16': '60', '2020-12-17': '50', '2020-11-29': "45"}}
     ]
   end
 
@@ -344,7 +344,7 @@ get "/sample_page" do
   chart_values = sample_minutes
 
   @daily_activity_hours = sample_chart.map do |hash|
-    [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / sample_entries).to_f./60.round(2))]
+    [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / sample_entries).round(2).to_f./60.round(2))]
   end
 
   @hours_used = {'Hours Remaining': @hours_remaining, 'Hours Used':@average_hours_used }
