@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Auto-mate</title>
+    <script name="chartkick" src="chartkick.js"></script>
+    <script name= "chartkickjs" src="Chart.bundle.js"></script>
+    <script src="/javascripts/jquery-3.5.1.slim.js"></script>
+    <script src="javascripts/application.js"></script>
+    <link rel="stylesheet" href="../stylesheets/homepage.css">
+    <link rel="icon" href="../images/favicon.ico" type="image/ico">
+    <link rel="shortcut icon" href="images/favicon.ico">
+  </head>
+  <body>
+  <div id="header" class="header">
+      <a href="/timesheet" class="logo">Auto-Mate</a>
+      <div id="links" class="header-right">
+          <a class="" href="/sample_page">Sample Page</a> 
+          <a class="" href="/login">Back to Login</a>
+        </div>
+      </div> 
+
+    <header>
+      <div class="actions">
+        <%== yield_content :header_links %>
+    </header>
+
+    <% if session[:message] %>
+      <div class="user_message">
+        <p><%= session.delete(:message) %></p>
+      </div>
+    <% end %>
+
+    <main>
+      <%== yield %>
+    </main>
+
+  </body>
+
+  <%== yield_content :footer_links %>
+</html>
