@@ -106,15 +106,19 @@ helpers do
     hash.each do |k, v|
       if k.to_s.strip == ''
         session[:message] = "Your additional entry was empty. Please try again."
-        redirect '/edit_activities/' + date + '/add'        
-      elsif v < 0
-        session[:message] = "Only non-negative numbers are allowed. Please try again."
-        redirect '/edit_activities/' + date + '/add'
+        redirect '/edit_activities/' + date
+      elsif v < 1
+        session[:message] = "The time you spend must be greater than zero. Please try again."
+        redirect '/edit_activities/' + date 
       elsif k.to_s.count('a-zA-Z_ 0-9') != k.to_s.length
         session[:message] = "Names of entries can only contain numbers, letters and spaces.  Please try again."
-        redirect '/edit_activities/' + date + '/add'
+        redirect '/edit_activities/' + date
       end
     end
+  end
+
+  def format_addition(new_entry)
+    new_entry.each { |k, _| k.gsub(/[ ]/, '_') }
   end
 
   def current_entries(names_and_values, names, standard_entries, personal_entries)
@@ -298,48 +302,23 @@ end
 #overwrite existing entries of a given date
 post "/edit_activities/:date" do
   date = params[:date]
-  @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple}
 
+  new_entry = {params[:add_name] => params[:add_value].to_i}
+  validate_addition(new_entry, date, @username)
+
+  new_entry = format_addition(new_entry)
+
+  @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple}
   edits = @names_values_text.map { |hash| 
   [hash["activity_name"], params[hash["activity_name"].to_sym]]}.to_h
 
   edit_existing_entries(edits, @session_id, date)
-
-  session[:message] = "Information for #{date} updated."
-  redirect '/timesheet'
-end
-
-get "/edit_activities/:date/add" do
-  @standard_entries = []
-  @personal_entries = []
-  @date = params[:date]
-
-  names_and_values = @db.names_and_values(@session_id, @date).map { |tuple| tuple}  
-  names = @db.extract_names(@session_id, @date).map { |tuple| tuple["activity_name"]}
-
-  current_entries(names_and_values, names, @standard_entries, @personal_entries)
-
-  erb :edit_add, layout: :layout
-end
-
-post "/edit_activities/:date/add" do
-
-  date = params[:date]
-  new_entry = {params[:add_name] => params[:add_value].to_i}
-  validate_addition(new_entry, date, @username)
-
-  @names_values_text = @db.names_and_values(@session_id, date).map { |tuple| tuple}
-  edits = @names_values_text.map { |hash| 
-  [hash["activity_name"], params[hash["activity_name"].to_sym]]}.to_h
-
-  edit_existing_entries(edits, @session_id, @date)
   @db.commit_entries(new_entry, @session_id, date)
 
   session[:message] = "Information for #{date} updated."
   redirect '/timesheet'
 end
 
-#this has to be modified to allow an example series of inputs, which will be deleted when tehey leave
 get "/sample_page" do
   @username = "'Test User'"
 
@@ -375,20 +354,12 @@ post "/delete_date" do
   redirect "/timesheet"
 end
 
-post '/delete_single_entry/:date/:activity_name' do
-  activity_name = params[:activity_name]
-  date = params[:date]
+post "/delete_single_entry/:date/:activity_name" do
+  activity_name = params[:activity_name].to_s
+  date = params[:date].to_s
   @db.delete_single_item(@session_id, activity_name, date)
   session[:message] = "Entry successfully deleted."
   redirect "/edit_activities/#{date}"
-end
-
-post '/delete_single_entry/:date/add/:activity_name' do
-  activity_name = params[:activity_name]
-  date = params[:date]
-  @db.delete_single_item(@session_id, activity_name, date)
-  session[:message] = "Entry successfully deleted."
-  redirect "/edit_activities/#{date}/add"
 end
 
 post "/cancel_delete" do
