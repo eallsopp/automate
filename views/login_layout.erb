@@ -12,9 +12,18 @@
     <link rel="shortcut icon" href="images/favicon.ico">
   </head>
   <body>
+  <div id="header" class="header">
+      <a href="/timesheet" class="logo">Auto-Mate</a>
+      <div id="links" class="header-right"> 
+          <a><form action="/new_user" method="get"> 
+            <button type="submit" class="link">Register</button>
+            </form>
+          </a>  
+          <a class="" href="/sample_page">Sample Page</a>     
+        </div>
+      </div> 
 
     <header>
-      <h1> Auto-mate </h1>
       <div class="actions">
         <%== yield_content :header_links %>
     </header>

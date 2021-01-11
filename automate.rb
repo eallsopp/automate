@@ -141,6 +141,14 @@ helpers do
     ]
   end
 
+  def sample_pie_chart(arr1, arr2)
+    donut = Hash.new
+    arr1.each_with_index { |entry, idx|
+      donut[entry] = arr2[idx]
+    }
+    donut
+  end
+
   def test_values(responsibilities)
     responsibilities.keep_if { |_,v| v != '' && v.to_i >= 0}
   end
@@ -213,7 +221,7 @@ end
 get "/new_user" do
   @message = "Please register to use the application."
 
-  erb :new_user, layout: :layout
+  erb :new_user, layout: :new_user_layout
 end
 
 #Register a New User
@@ -266,10 +274,9 @@ get "/timesheet" do
   @chart = all_logged_activities(@session_id) 
 
   @minutes_per_day =  minutes_used(@session_id)
-  @hours_used_per_day = minutes_to_hours(@minutes_per_day)
+  @average_hours_used = minutes_to_hours(@minutes_per_day)
   @average_minutes_remaining = average_minutes_remaining(@session_id)
   @hours_remaining = minutes_to_hours(@average_minutes_remaining)
-  @average_hours_used = @hours_used_per_day
 
   @daily_activity_hours = extract_average_hours_per_activity(@session_id)
   
@@ -320,20 +327,30 @@ post "/edit_activities/:date" do
 end
 
 get "/sample_page" do
-  @username = "'Test User'"
+  @username = "Sample User"
 
   @chart = sample_chart
 
-  sample_minutes = [500, 480, 200, 419, 450, 480, 45, 60, 70, 10, 9, 8, 10, 12, 14, 60, 60, 45, 
-  60, 90, 30, 25, 40, 15, 60, 35, 45].inject(:+)
-  sample_entries = 3
+  sample_minutes = sample_chart.map { |hash| hash[:data].values.map(&:to_i).inject(:+) }.flatten
+  sample_entries = sample_chart[0][:data].size
+  @total_minutes_logged = sample_chart.map {|hash| hash[:data].values.map(&:to_i).inject(:+)}.inject(:+)
 
-  @minutes_per_day =  sample_minutes / sample_entries
-  @hours_per_day = minutes_to_hours(@minutes_per_day)
+  @minutes_per_day =  sample_minutes.inject(:+) / sample_entries
+  @average_hours_used = minutes_to_hours(@minutes_per_day)
   @average_minutes_remaining = (24*60) - @minutes_per_day
   @hours_remaining = minutes_to_hours(@average_minutes_remaining)
+  
+  chart_names = sample_chart.map {|hash| hash[:name]}
+  chart_values = sample_minutes
 
-  erb :sample, layout: :layout
+  @daily_activity_hours = sample_chart.map do |hash|
+    [hash[:name], ((hash[:data].values.map(&:to_i).inject(:+) / sample_entries).to_f./60.round(2))]
+  end
+
+  @hours_used = {'Hours Remaining': @hours_remaining, 'Hours Used':@average_hours_used }
+  @total_minutes = sample_pie_chart(chart_names, chart_values)
+
+  erb :sample, layout: :sample_page_layout
 end
 
 #choose dates to delete

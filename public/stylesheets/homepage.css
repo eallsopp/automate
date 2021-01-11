@@ -15,16 +15,36 @@ body {
   text-align: center;
 }
 
+fieldset.login label, .new label {
+  display:inline-block;
+    *display: inline;     /* for IE7*/
+    zoom:1;              /* for IE7*/
+    float: left;
+    padding: 5px;
+    text-align: center;
+    width: 140px;
+  }
+
+  fieldset.login input, .new input, .add input, .edit input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display:inline-block;
+    *display: inline;     /* for IE7*/
+    zoom:1;              /* for IE7*/
+    vertical-align:middle;
+    margin-left:20px
+  }
+
 label {
+  position: relative;
   font-size: 20px;
-  text-align: center;
 }
 
 dl dt {
   font-size: 24px;
 }
 
-dt input.text {
+dt input.text, dt input.password {
   font-size: 20px;
 }
 
@@ -93,6 +113,10 @@ button.link:hover {
   color: white;
 }
 
+form input.text {
+  font-size: 20px;
+}
+
 input.button {
   margin-bottom: 2px;
   margin-top: 2px;
@@ -126,7 +150,7 @@ input.button {
 }
 /* this is where to focus attention Sunday and fix the layout issues*/
 form {
-  display: flexbox;
+  display: inline;
   padding: 0px;
   font-size: inherit;
   border: none;

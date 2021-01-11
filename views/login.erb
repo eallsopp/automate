@@ -3,20 +3,19 @@
 
     <form action="/login" method="post">
       <fieldset class="login">
-      <br>
-        <label for='username'>Username:</label>
-        <input class='text' type='text' name='username' placeholder='Username' required>
-        <br>
-        <label for='password'>Password:</label>
-        <input class='text' type='password' name='password' id='password' placeholder='Password' required>
+        <dl>
+        <dt>
+          <label for='username'>Username:</label>
+          <input class='text' type='text' name='username' placeholder='Username' required>
+        </dt>
+        
+        <dt>
+          <label for='password'>Password:</label>
+          <input class='text' type='password' name='password' placeholder='Password' required>
+        </dt>
+        </dl>
+              <button type='submit' class='button'>Submit</button>
 
-      <br>
-      <br>
-      <br>
-      <button type='submit' class='button'>Submit</button>
-      <button type='reset' onclick="location.href='/new_user'" class='button'>Register a New User</button>
-      <button type='reset' onclick="location.href='/sample_page'" class='button'>
-        Test App</button>
       </fieldset>
 
     </form>

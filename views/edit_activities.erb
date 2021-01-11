@@ -5,7 +5,7 @@
 
 <body>
   <h2>Edit Your Activities for <em><%=params[:date]%></em></h2>
-    <fieldset>
+    <fieldset class="edit">
     <form class="edit" action='/edit_activities/<%=params[:date]%>' method='post'>
       
       <p>Everyday Events:</p>
@@ -29,12 +29,13 @@
         <% end %>
         </form>
         <% end %>
-        
+        <p> Add an Entry:</p>
         <dt>
-          <label for="add">Add
-          <input class="text" type="text" name="add_name" placeholder="Insert New Entry Name">
+          <label for="add">
+          <input class="text" type="text" name="add_name" placeholder="New Name (optional)">
           <input class="button" type="number" name="add_value" placeholder=0>
         </dt>
+        <br>
           <button type='submit' class='button'>Submit Edits</button>
           <button type='button' onclick="window.location.href='/timesheet'">Cancel Edit</button>
           <button type='reset'>Clear Form</button>
